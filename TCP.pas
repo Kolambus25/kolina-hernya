@@ -66,6 +66,7 @@ begin
     IdTCPClient1.Disconnect;
     Timer1.Enabled := false;
     Button1.Text:='Connect';
+    timer_count:=0;
   end;
 end;
 
@@ -102,6 +103,7 @@ begin
     Timer1.Enabled := false;
     Button1.Text:='Connect';
     IdTCPClient1.Disconnect;
+    timer_count:=0;
   end;
 end;
 
