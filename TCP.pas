@@ -37,6 +37,7 @@ var
   Form1: TForm1;
   TDRThread: DRThread;
   timer_count: Integer;
+  str1: string;
 
 implementation
 
@@ -44,24 +45,33 @@ implementation
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
-  i: integer;
+  i: Integer;
   str: string[255];
 begin
-
-
-  IdTCPClient1.Host := TxtServer.Text;
-  IdTCPClient1.Connect;
-  IdTCPClient1.Socket.WriteLn(TxtMessage.Text);
-  if IdTCPClient1.Connected then
-    TxtResults.Lines.Add(TimeToStr(Now) + TxtMessage.Text);
-  TxtMessage.Text := '';
-  TDRThread.Execute;
+  if Button1.Text = 'Connect' then
+  begin
+    IdTCPClient1.Disconnect;
+    str1 := TxtServer.Text;
+    IdTCPClient1.Host := str1;
+    IdTCPClient1.Connect;
+    IdTCPClient1.Socket.WriteLn(TxtMessage.Text);
+    if IdTCPClient1.Connected then
+      TxtResults.Lines.Add(TimeToStr(Now)+ ' ' + TxtMessage.Text);
+    TxtMessage.Text := '';
+    TDRThread.Execute;
+    Button1.Text:='Disconnect';
+  end
+  else
+  begin
+    IdTCPClient1.Disconnect;
+    Timer1.Enabled := false;
+    Button1.Text:='Connect';
+  end;
 end;
 
 procedure DRThread.Execute;
 var
-  s: string;
-  i: integer;
+  i: Integer;
 begin
   with Form1 do
   begin
@@ -75,21 +85,24 @@ begin
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
-var
-  s: string;
 begin
-  IdTCPClient1.Host := TxtServer.Text;
-  IdTCPClient1.Connect;
-  IdTCPClient1.Socket.WriteLn(TxtMessage.Text);
   if not IdTCPClient1.Connected then
-    Exit;
-  if IdTCPClient1.IOHandler.InputBufferIsEmpty then
-    Exit;
-  s := IdTCPClient1.IOHandler.InputBufferAsString;
-  TxtResults.Lines.Add('Received: ' + s);
+  begin
+    IdTCPClient1.Host := str1;
+    IdTCPClient1.Connect;
+    IdTCPClient1.Socket.WriteLn(TxtMessage.Text);
+  end;
+  if not IdTCPClient1.IOHandler.InputBufferIsEmpty then
+  begin
+    TxtResults.Lines.Add('Received: ' + IdTCPClient1.IOHandler.InputBufferAsString);
+  end;
   inc(timer_count);
-  if (timer_count>10) then
-    Timer1.Enabled:=false;
+  if (timer_count > 10) then
+  begin
+    Timer1.Enabled := false;
+    Button1.Text:='Connect';
+    IdTCPClient1.Disconnect;
+  end;
 end;
 
 end.
