@@ -1,0 +1,70 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 272
+  ClientWidth = 407
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Button1: TButton
+    Position.X = 208.000000000000000000
+    Position.Y = 32.000000000000000000
+    Size.Width = 193.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'Connect'
+    OnClick = Button1Click
+  end
+  object TxtMessage: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 2
+    Text = 'Message'
+    Position.X = 8.000000000000000000
+    Position.Y = 200.000000000000000000
+    Size.Width = 193.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    ParentShowHint = False
+    ShowHint = False
+  end
+  object TxtServer: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    TabOrder = 3
+    Text = 'Jabber.ru'
+    Position.X = 8.000000000000000000
+    Position.Y = 32.000000000000000000
+    Size.Width = 193.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+  end
+  object TxtResults: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Position.X = 8.000000000000000000
+    Position.Y = 64.000000000000000000
+    Size.Width = 393.000000000000000000
+    Size.Height = 130.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 4
+    Viewport.Width = 389.000000000000000000
+    Viewport.Height = 126.000000000000000000
+  end
+  object Timer1: TTimer
+    Interval = 1
+    OnTimer = Timer1Timer
+    Left = 224
+    Top = 216
+  end
+  object IdTCPClient1: TIdTCPClient
+    ConnectTimeout = 0
+    IPVersion = Id_IPv4
+    Port = 5222
+    ReadTimeout = -1
+    Left = 280
+    Top = 216
+  end
+end
