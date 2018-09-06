@@ -54,7 +54,7 @@ object Form1: TForm1
     Viewport.Height = 126.000000000000000000
   end
   object Timer1: TTimer
-    Interval = 1
+    Enabled = False
     OnTimer = Timer1Timer
     Left = 224
     Top = 216

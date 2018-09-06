@@ -36,6 +36,7 @@ type
 var
   Form1: TForm1;
   TDRThread: DRThread;
+  timer_count: Integer;
 
 implementation
 
@@ -46,12 +47,15 @@ var
   i: integer;
   str: string[255];
 begin
+
+
   IdTCPClient1.Host := TxtServer.Text;
   IdTCPClient1.Connect;
   IdTCPClient1.Socket.WriteLn(TxtMessage.Text);
   if IdTCPClient1.Connected then
     TxtResults.Lines.Add(TimeToStr(Now) + TxtMessage.Text);
   TxtMessage.Text := '';
+  TDRThread.Execute;
 end;
 
 procedure DRThread.Execute;
@@ -61,15 +65,7 @@ var
 begin
   with Form1 do
   begin
-    while not Terminated do
-      if TDRThread.Terminated then
-        break;
-    if not IdTCPClient1.Connected then
-      Exit;
-    if IdTCPClient1.IOHandler.InputBufferIsEmpty then
-      Exit;
-    s := IdTCPClient1.IOHandler.InputBufferAsString;
-    TxtResults.Lines.Add('Received: ' + s);
+    Timer1.Enabled := true;
   end;
 end;
 
@@ -82,7 +78,18 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 var
   s: string;
 begin
-  TDRThread.Execute;
+  IdTCPClient1.Host := TxtServer.Text;
+  IdTCPClient1.Connect;
+  IdTCPClient1.Socket.WriteLn(TxtMessage.Text);
+  if not IdTCPClient1.Connected then
+    Exit;
+  if IdTCPClient1.IOHandler.InputBufferIsEmpty then
+    Exit;
+  s := IdTCPClient1.IOHandler.InputBufferAsString;
+  TxtResults.Lines.Add('Received: ' + s);
+  inc(timer_count);
+  if (timer_count>10) then
+    Timer1.Enabled:=false;
 end;
 
 end.
