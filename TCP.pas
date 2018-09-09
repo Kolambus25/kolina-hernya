@@ -42,6 +42,21 @@ var
 implementation
 
 {$R *.fmx}
+function ServerHello (Host: string): RawByteString;
+var
+ Pack: string;
+ begin
+   Pack:= Format (
+    '<?xml version=''1.0'' encoding=''UTF-8''?> ' +
+    '<stream:stream to=''%S'' ' +
+    'xmlns=''jabber:client'' ' +
+    'xmlns:stream=''http://etherx.jabber.org/streams'' ' +
+    'xml:l=''ru'' ' +
+    'version=''1.0''>',
+    [Host]);
+  Result := UTF8Encode(Pack);
+  Pack := EmptyStr;
+ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
@@ -50,11 +65,13 @@ var
 begin
   if Button1.Text = 'Connect' then
   begin
-    IdTCPClient1.Disconnect;
+    IdTCPClient1:= IdTCPClient1.Create(nil);
     str1 := TxtServer.Text;
     IdTCPClient1.Host := str1;
+    IdTCPClient1.ConnectTimeout := 5000;
+    IdTCPClient1.ReadTimeout := 1000;
     IdTCPClient1.Connect;
-    IdTCPClient1.Socket.WriteLn(TxtMessage.Text);
+    IdTCPClient1.Socket.WriteLn(ServerHello());
     if IdTCPClient1.Connected then
       TxtResults.Lines.Add(TimeToStr(Now)+ ' ' + TxtMessage.Text);
     TxtMessage.Text := '';
