@@ -10,6 +10,7 @@ object Form1: TForm1
   OnShow = FormShow
   DesignerMasterStyle = 0
   object Button1: TButton
+    Anchors = [akTop, akRight]
     Position.X = 208.000000000000000000
     Position.Y = 32.000000000000000000
     Size.Width = 193.000000000000000000
@@ -21,11 +22,12 @@ object Form1: TForm1
   end
   object TxtMessage: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Anchors = [akLeft, akRight, akBottom]
     TabOrder = 2
     Text = 'Message'
     Position.X = 8.000000000000000000
     Position.Y = 200.000000000000000000
-    Size.Width = 193.000000000000000000
+    Size.Width = 393.000000000000000000
     Size.Height = 25.000000000000000000
     Size.PlatformDefault = False
     ParentShowHint = False
@@ -33,6 +35,7 @@ object Form1: TForm1
   end
   object TxtServer: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 3
     Text = 'Jabber.ru'
     Position.X = 8.000000000000000000
@@ -44,6 +47,7 @@ object Form1: TForm1
   object TxtResults: TMemo
     Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
     DataDetectorTypes = []
+    Anchors = [akLeft, akTop, akRight, akBottom]
     Position.X = 8.000000000000000000
     Position.Y = 64.000000000000000000
     Size.Width = 393.000000000000000000

@@ -71,7 +71,7 @@ begin
     IdTCPClient1.ConnectTimeout := 5000;
     IdTCPClient1.ReadTimeout := 1000;
     IdTCPClient1.Connect;
-    IdTCPClient1.Socket.WriteLn(ServerHello());
+    IdTCPClient1.Socket.WriteLn(ServerHello(TxtServer.Text));
     if IdTCPClient1.Connected then
       TxtResults.Lines.Add(TimeToStr(Now)+ ' ' + TxtMessage.Text);
     TxtMessage.Text := '';
@@ -79,12 +79,12 @@ begin
     Button1.Text:='Disconnect';
   end
   else
-  begin
-    IdTCPClient1.Disconnect;
-    Timer1.Enabled := false;
-    Button1.Text:='Connect';
-    timer_count:=0;
-  end;
+//  begin
+//    IdTCPClient1.Disconnect;
+//    Timer1.Enabled := false;
+//    Button1.Text:='Connect';
+//    timer_count:=0;
+//  end;
 end;
 
 procedure DRThread.Execute;
